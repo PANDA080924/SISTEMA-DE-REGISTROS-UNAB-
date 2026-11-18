@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
+             x:Class="SISTEMA_DE_REGISTRO.Views.PanelPrincipalPage"
+             BackgroundColor="Ivory"
+             Title="Panel Principal">
+
+    <ScrollView VerticalScrollBarVisibility="Never">
+        <VerticalStackLayout Padding="20" Spacing="16" MaximumWidthRequest="450" HorizontalOptions="Center">
+
+            <!-- 1. Tarjeta con Datos del Estudiante -->
+            <Border StrokeShape="RoundRectangle 12" BackgroundColor="#0F172A" Padding="18" StrokeThickness="0">
+                <VerticalStackLayout Spacing="6">
+                    <Label x:Name="lblNombreEstudiante" 
+                           Text="FERMIN CASTRO, MARCELO ALESSANDRO" 
+                           FontSize="16" 
+                           FontAttributes="Bold" 
+                           TextColor="#FFFFFF"/>
+
+                    <Label x:Name="lblCarreraFacultad" 
+                           Text="Ingeniería de Sistemas e Informática | Facultad de Ingeniería" 
+                           FontSize="12" 
+                           TextColor="#94A3B8"/>
+
+                    <Label x:Name="lblCiclo" 
+                           Text="Ciclo Académico: Ciclo 5" 
+                           FontSize="12" 
+                           TextColor="#CBD5E1"/>
+
+                    <HorizontalStackLayout Spacing="8" Margin="0,4,0,0">
+                        <BoxView WidthRequest="10" HeightRequest="10" Color="#22C55E" VerticalOptions="Center"/>
+                        <Label Text="ACTIVO EN EL CICLO" FontSize="12" FontAttributes="Bold" TextColor="#22C55E" VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- 2. Botón Principal para Desplegar Cámara -->
+            <Button x:Name="btnAbrirCamara"
+                    Text="Abrir Cámara"
+                    Clicked="OnAbrirCamaraClicked"
+                    BackgroundColor="#0284C7"
+                    TextColor="White"
+                    HeightRequest="46"
+                    CornerRadius="8"
+                    FontAttributes="Bold"/>
+
+            <!-- 3. Contenedor Desplegable: Visor QR + Botones Entrada / Salida -->
+            <VerticalStackLayout x:Name="contenedorCamara" IsVisible="False" Spacing="12">
+
+                <Border StrokeShape="RoundRectangle 10" BackgroundColor="#000000" HeightRequest="210" StrokeThickness="0">
+                    <Grid>
+                        <zxing:CameraBarcodeReaderView x:Name="barcodeView" 
+                                                       BarcodesDetected="OnBarcodesDetected" 
+                                                       IsDetecting="False"/>
+                    </Grid>
+                </Border>
+
+                <!-- Botones Entrada / Salida dentro del bloque de cámara -->
+                <Grid ColumnDefinitions="*, *" ColumnSpacing="12">
+                    <Button Grid.Column="0" 
+                            Text="Entrada" 
+                            Clicked="OnEntradaClicked" 
+                            BackgroundColor="#16A34A" 
+                            TextColor="White" 
+                            HeightRequest="44" 
+                            CornerRadius="8" 
+                            FontAttributes="Bold"/>
+                    <Button Grid.Column="1" 
+                            Text="Salida" 
+                            Clicked="OnSalidaClicked" 
+                            BackgroundColor="#DC2626" 
+                            TextColor="White" 
+                            HeightRequest="44" 
+                            CornerRadius="8" 
+                            FontAttributes="Bold"/>
+                </Grid>
+
+                <!-- Botón opcional para cerrar/ocultar la cámara -->
+                <Button Text="Cerrar Cámara"
+                        Clicked="OnCerrarCamaraClicked"
+                        BackgroundColor="#64748B"
+                        TextColor="White"
+                        HeightRequest="38"
+                        CornerRadius="8"
+                        FontSize="12"/>
+            </VerticalStackLayout>
+
+            <!-- 4. Acciones y Accesos Rápidos -->
+            <VerticalStackLayout Spacing="10">
+                <Button Text="Mi Control de Asistencia" Clicked="OnMiControlAsistenciaClicked" BackgroundColor="#0F766E" TextColor="White" HeightRequest="44" CornerRadius="8" FontAttributes="Bold"/>
+                <Button Text="Registrar Dispositivo" Clicked="OnRegistrarDispositivoClicked" BackgroundColor="#2563EB" TextColor="White" HeightRequest="44" CornerRadius="8" FontAttributes="Bold"/>
+                <Button Text="Control de Entrada y Salida" Clicked="OnControlGaritaClicked" BackgroundColor="#0F172A" TextColor="White" HeightRequest="44" CornerRadius="8" FontAttributes="Bold"/>
+                <Button Text="Cerrar Sesión" Clicked="OnCerrarSesionClicked" BackgroundColor="#EF4444" TextColor="White" HeightRequest="44" CornerRadius="8" FontAttributes="Bold" Margin="0,6,0,0"/>
+            </VerticalStackLayout>
+
+            <!-- Versión de la App -->
+            <Label x:Name="lblVersionApp"
+                   Text="Versión 1.0"
+                   FontSize="11"
+                   TextColor="#94A3B8"
+                   HorizontalOptions="Center"
+                   Margin="0,4,0,0"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

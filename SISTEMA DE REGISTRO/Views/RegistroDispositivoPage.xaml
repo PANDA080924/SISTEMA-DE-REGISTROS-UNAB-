@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SISTEMA_DE_REGISTRO.Views.RegistroDispositivoPage"
+             BackgroundColor="#121824"
+             Shell.NavBarIsVisible="False"
+             Title="Registro de Dispositivo">
+
+    <Grid RowDefinitions="Auto, *">
+
+        <!-- Header Superior Oscuro con Botón Volver -->
+        <Grid Grid.Row="0" BackgroundColor="#1E293B" HeightRequest="56" Padding="12,0" ColumnDefinitions="Auto, *">
+            <ImageButton Grid.Column="0" Source="dotnet_bot.png" WidthRequest="22" HeightRequest="22" Clicked="OnVolverClicked" VerticalOptions="Center"/>
+            <Label Grid.Column="1" Text="Registro de Dispositivo" TextColor="White" FontSize="18" FontAttributes="Bold" VerticalOptions="Center" Margin="12,0,0,0"/>
+        </Grid>
+
+        <ScrollView Grid.Row="1" VerticalScrollBarVisibility="Never">
+            <VerticalStackLayout Padding="20" Spacing="18" MaximumWidthRequest="420" HorizontalOptions="Center">
+
+                <!-- Botón Escanear QR Azul -->
+                <Button Text="Escanear QR" 
+                        Clicked="OnEscanearQRClicked" 
+                        BackgroundColor="#2563EB" 
+                        TextColor="White" 
+                        HeightRequest="44" 
+                        CornerRadius="8" 
+                        FontAttributes="Bold"/>
+
+                <!-- Campos de Dispositivo con Línea Inferior BoxView -->
+                <VerticalStackLayout Spacing="4">
+                    <Entry x:Name="txtMarca" Placeholder="Marca" PlaceholderColor="#64748B" TextColor="White" BackgroundColor="Transparent"/>
+                    <BoxView HeightRequest="1" Color="#475569"/>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="4">
+                    <Entry x:Name="txtModelo" Placeholder="Modelo" PlaceholderColor="#64748B" TextColor="White" BackgroundColor="Transparent"/>
+                    <BoxView HeightRequest="1" Color="#475569"/>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="4">
+                    <Entry x:Name="txtNumeroSerie" Placeholder="Número de Serie" PlaceholderColor="#64748B" TextColor="White" BackgroundColor="Transparent"/>
+                    <BoxView HeightRequest="1" Color="#475569"/>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="6" Padding="0,4">
+                    <Label x:Name="lblTipo" Text="Selecciona Tipo" TextColor="#64748B" FontSize="15">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnSeleccionarTipoTapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <BoxView HeightRequest="1" Color="#475569"/>
+                </VerticalStackLayout>
+
+                <!-- Sección Foto del Dispositivo -->
+                <VerticalStackLayout Spacing="8" Padding="0,4">
+                    <Label Text="Foto del Dispositivo (Opcional)" TextColor="#94A3B8" FontSize="13" FontAttributes="Bold"/>
+
+                    <Border Stroke="#475569" StrokeThickness="1" StrokeShape="RoundRectangle 8" HeightRequest="165" BackgroundColor="#1E293B">
+                        <Image x:Name="imgDispositivo" Aspect="AspectFit" Source="dotnet_bot.png"/>
+                    </Border>
+
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                        <Button Grid.Column="0"
+                                Text="📷 Tomar Foto"
+                                Clicked="OnTomarFotoClicked"
+                                BackgroundColor="#334155"
+                                TextColor="White"
+                                HeightRequest="40"
+                                CornerRadius="8"
+                                FontSize="13"/>
+                        <Button Grid.Column="1"
+                                Text="🖼️ Galería"
+                                Clicked="OnSeleccionarFotoClicked"
+                                BackgroundColor="#334155"
+                                TextColor="White"
+                                HeightRequest="40"
+                                CornerRadius="8"
+                                FontSize="13"/>
+                    </Grid>
+                </VerticalStackLayout>
+
+                <!-- Campos Datos del Alumno con Línea Inferior -->
+                <VerticalStackLayout Spacing="4">
+                    <Entry x:Name="txtNombres" Placeholder="Nombres" PlaceholderColor="#64748B" TextColor="White" BackgroundColor="Transparent"/>
+                    <BoxView HeightRequest="1" Color="#475569"/>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="4">
+                    <Entry x:Name="txtApellidos" Placeholder="Apellidos" PlaceholderColor="#64748B" TextColor="White" BackgroundColor="Transparent"/>
+                    <BoxView HeightRequest="1" Color="#475569"/>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="4">
+                    <Entry x:Name="txtCorreo" Placeholder="Correo Institucional" PlaceholderColor="#64748B" TextColor="White" Keyboard="Email" BackgroundColor="Transparent"/>
+                    <BoxView HeightRequest="1" Color="#475569"/>
+                </VerticalStackLayout>
+
+                <!-- Campo Nuevo: Contraseña del Estudiante -->
+                <VerticalStackLayout Spacing="4">
+                    <Entry x:Name="txtContrasena" Placeholder="Contraseña de Acceso" PlaceholderColor="#64748B" TextColor="White" IsPassword="True" BackgroundColor="Transparent"/>
+                    <BoxView HeightRequest="1" Color="#475569"/>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="4">
+                    <Entry x:Name="txtCodigoEstudiante" Placeholder="Código de Estudiante" PlaceholderColor="#64748B" TextColor="White" Keyboard="Numeric" BackgroundColor="Transparent"/>
+                    <BoxView HeightRequest="1" Color="#475569"/>
+                </VerticalStackLayout>
+
+                <!-- Selección de Facultad (Modal / Diálogo) -->
+                <VerticalStackLayout Spacing="6" Padding="0,4">
+                    <Label x:Name="lblFacultad" Text="Selecciona Facultad" TextColor="#64748B" FontSize="15">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnSeleccionarFacultadTapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <BoxView HeightRequest="1" Color="#475569"/>
+                </VerticalStackLayout>
+
+                <!-- Selección de Carrera Profesional (Modal / Diálogo) -->
+                <VerticalStackLayout Spacing="6" Padding="0,4">
+                    <Label x:Name="lblCarrera" Text="Selecciona Carrera Profesional" TextColor="#64748B" FontSize="15">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnSeleccionarCarreraTapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <BoxView HeightRequest="1" Color="#475569"/>
+                </VerticalStackLayout>
+
+                <!-- Selección de Ciclo Académico (Modal / Diálogo) -->
+                <VerticalStackLayout Spacing="6" Padding="0,4">
+                    <Label x:Name="lblCiclo" Text="Ciclo Académico" TextColor="#64748B" FontSize="15">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnSeleccionarCicloTapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <BoxView HeightRequest="1" Color="#475569"/>
+                </VerticalStackLayout>
+
+                <!-- Botón de Confirmación Verde -->
+                <Button x:Name="btnGuardar"
+                        Text="Guardar Registro" 
+                        Clicked="OnGuardarClicked" 
+                        BackgroundColor="#15803D" 
+                        TextColor="White" 
+                        HeightRequest="48" 
+                        CornerRadius="8" 
+                        FontAttributes="Bold" 
+                        Margin="0,12,0,10"/>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

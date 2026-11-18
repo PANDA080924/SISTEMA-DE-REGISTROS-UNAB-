@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SISTEMA_DE_REGISTRO.Views.MisRegistrosAccesoPage"
+             BackgroundColor="#F8FAFC"
+             Title="Mis Registros de Acceso">
+
+    <Grid RowDefinitions="Auto, Auto, *">
+
+        <!-- Header con Título -->
+        <VerticalStackLayout Grid.Row="0" Padding="20,20,20,10" Spacing="6">
+            <Label Text="Historial de Movimientos" 
+                   FontSize="20" 
+                   FontAttributes="Bold" 
+                   TextColor="#0F172A"/>
+
+            <Label Text="Consulte los ingresos y salidas registrados en garita" 
+                   FontSize="12" 
+                   TextColor="#64748B"/>
+        </VerticalStackLayout>
+
+        <!-- Filtro por Fecha y Resumen -->
+        <Border Grid.Row="1" 
+                Margin="20,0,20,15" 
+                StrokeShape="RoundRectangle 10" 
+                BackgroundColor="#FFFFFF" 
+                Padding="12,10" 
+                Stroke="#E2E8F0">
+            <VerticalStackLayout Spacing="8">
+                <Grid ColumnDefinitions="Auto, *, Auto, Auto" ColumnSpacing="8">
+                    <Label Text="Fecha:" 
+                           VerticalOptions="Center" 
+                           FontAttributes="Bold" 
+                           FontSize="13" 
+                           TextColor="#475569"/>
+
+                    <DatePicker x:Name="dpFechaFiltro" 
+                                Grid.Column="1" 
+                                DateSelected="OnFechaFiltroChanged" 
+                                Format="dd/MM/yyyy" 
+                                TextColor="#1E293B"/>
+
+                    <Button Grid.Column="2"
+                            Text="Hoy"
+                            Clicked="OnFiltrarHoyClicked"
+                            BackgroundColor="#0284C7"
+                            TextColor="White"
+                            HeightRequest="34"
+                            CornerRadius="6"
+                            FontSize="12"
+                            Padding="10,0"/>
+
+                    <Button Grid.Column="3"
+                            Text="Todos"
+                            Clicked="OnVerTodosClicked"
+                            BackgroundColor="#475569"
+                            TextColor="White"
+                            HeightRequest="34"
+                            CornerRadius="6"
+                            FontSize="12"
+                            Padding="10,0"/>
+                </Grid>
+
+                <Label x:Name="lblResumenMovimientos"
+                       Text="Cargando registros..."
+                       FontSize="12"
+                       FontAttributes="Bold"
+                       TextColor="#0F766E"/>
+            </VerticalStackLayout>
+        </Border>
+
+        <!-- Lista de Registros -->
+        <RefreshView Grid.Row="2" x:Name="rvRegistros" Refreshing="OnRefreshing">
+            <CollectionView x:Name="cvHistorial" Margin="20,0,20,20">
+
+                <!-- Estado Vacío -->
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10" Margin="0,50,0,0">
+                        <Label Text="Sin registros" FontSize="16" FontAttributes="Bold" TextColor="#94A3B8" HorizontalTextAlignment="Center"/>
+                        <Label Text="No se encontraron movimientos para la fecha seleccionada." FontSize="13" TextColor="#CBD5E1" HorizontalTextAlignment="Center"/>
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+
+                <!-- Plantilla de Elemento -->
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border StrokeShape="RoundRectangle 12" 
+                                BackgroundColor="#FFFFFF" 
+                                Padding="15" 
+                                Margin="0,0,0,10" 
+                                Stroke="#E2E8F0" 
+                                StrokeThickness="1">
+                            <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="12">
+
+                                <!-- Indicador de Tipo (Entrada/Salida) -->
+                                <Border Grid.Column="0" 
+                                        StrokeShape="RoundRectangle 8" 
+                                        WidthRequest="42" 
+                                        HeightRequest="42" 
+                                        BackgroundColor="{Binding TipoEventoColor}" 
+                                        StrokeThickness="0" 
+                                        VerticalOptions="Center">
+                                    <Label Text="{Binding TipoEventoIcono}" 
+                                           TextColor="White" 
+                                           FontAttributes="Bold" 
+                                           FontSize="16" 
+                                           HorizontalOptions="Center" 
+                                           VerticalOptions="Center"/>
+                                </Border>
+
+                                <!-- Información del Equipo y Garita -->
+                                <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
+                                    <Label Text="{Binding TituloEvento}" FontSize="14" FontAttributes="Bold" TextColor="#0F172A"/>
+                                    <Label Text="{Binding EscaneadoPor, StringFormat='Puerta: {0}'}" FontSize="12" TextColor="#475569"/>
+                                    <Label Text="{Binding EquipoDetalle}" FontSize="11" TextColor="#94A3B8"/>
+                                </VerticalStackLayout>
+
+                                <!-- Hora y Fecha del Registro -->
+                                <VerticalStackLayout Grid.Column="2" VerticalOptions="Center" HorizontalOptions="End" Spacing="4">
+                                    <Border StrokeShape="RoundRectangle 6" BackgroundColor="#F1F5F9" Padding="8,4" StrokeThickness="0">
+                                        <Label Text="{Binding HoraFormateada}" 
+                                               FontSize="12" 
+                                               FontAttributes="Bold" 
+                                               TextColor="#0F172A"
+                                               HorizontalTextAlignment="Center"/>
+                                    </Border>
+                                    <Label Text="{Binding FechaFormateada}"
+                                           FontSize="10"
+                                           TextColor="#64748B"
+                                           HorizontalTextAlignment="Center"/>
+                                </VerticalStackLayout>
+
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+
+    </Grid>
+</ContentPage>
